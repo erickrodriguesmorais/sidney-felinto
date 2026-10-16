@@ -4,23 +4,23 @@ const SITE_CONFIG = {
   instagramUrl: ""    // Ex.: "https://www.instagram.com/usuario/"
 };
 
-document.getElementById("year").textContent = new Date().getFullYear();
+const yearElement = document.getElementById("year");\nif (yearElement) yearElement.textContent = new Date().getFullYear();
 
 const menuToggle = document.querySelector(".menu-toggle");
 const nav = document.querySelector(".main-nav");
-menuToggle.addEventListener("click", () => {
+if (menuToggle && nav) menuToggle.addEventListener("click", () => {
   const open = nav.classList.toggle("is-open");
   menuToggle.setAttribute("aria-expanded", String(open));
   menuToggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
 });
-nav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+if (nav && menuToggle) nav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
   nav.classList.remove("is-open");
   menuToggle.setAttribute("aria-expanded", "false");
   menuToggle.setAttribute("aria-label", "Abrir menu");
 }));
 
 const whatsappLink = document.getElementById("whatsapp-link");
-if (SITE_CONFIG.whatsappNumber) {
+if (whatsappLink && SITE_CONFIG.whatsappNumber) {
   const message = encodeURIComponent("Olá, Sidney! Gostaria de conversar sobre um filme de casamento ou projeto audiovisual.");
   whatsappLink.href = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${message}`;
 } else {

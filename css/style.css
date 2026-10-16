@@ -164,3 +164,17 @@ body.modal-open { overflow: hidden; }
   .whatsapp-float-label { display: none; }
   .whatsapp-float svg { width: 27px; height: 27px; }
 }
+
+/* Página Sobre */
+.about-page-intro { padding-top: 150px; padding-bottom: 42px; }
+.about-page-intro h1 { font-family: "Cormorant Garamond", serif; font-weight: 400; font-size: clamp(2.5rem, 5vw, 5rem); line-height: .98; letter-spacing: -.035em; margin: 18px 0 0; }
+.about-page-intro h1 em { font-weight: 400; }
+@media (max-width: 700px) { .about-page-intro { padding-top: 112px; padding-bottom: 26px; } }
+
+/* Refinamento dos ícones: traço fino, marfim e dourado suave */
+.icon-arrow { display: inline-flex; align-items: center; justify-content: center; width: 1.2em; height: 1.2em; margin-left: .55rem; vertical-align: -0.18em; color: var(--accent, #a08c6b); }
+.icon-arrow svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.45; stroke-linecap: round; stroke-linejoin: round; }
+.film-card { position: relative; }
+.play-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: inline-flex; align-items: center; justify-content: center; width: 62px; height: 62px; border: 1px solid rgba(239,231,215,.9); border-radius: 50%; background: rgba(25,23,20,.22); color: #f3eadb; transition: background .25s ease, transform .25s ease, border-color .25s ease; }
+.play-icon svg { width: 24px; height: 24px; fill: currentColor; margin-left: 3px; }
+.film-card:hover .play-icon { background: rgba(160,140,107,.55); border-color: #f3eadb; transform: translate(-50%, -50%) scale(1.06); }
