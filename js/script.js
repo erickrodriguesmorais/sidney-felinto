@@ -48,15 +48,27 @@ let lastFocusedElement = null;
 function openVideo(card) {
   lastFocusedElement = card;
   const videoId = card.dataset.video;
+  const instagramReel = card.dataset.instagramReel;
   modal.setAttribute("aria-label", card.dataset.title || "Filme");
   modal.classList.add("is-open");
   modal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
-  if (!videoId || videoId.startsWith("SUBSTITUA_")) {
+  if (instagramReel) {
+    modalMessage.hidden = true;
+    videoFrame.hidden = false;
+    videoFrame.classList.add("instagram-frame");
+    player.title = "Reels do Instagram";
+    player.referrerPolicy = "strict-origin-when-cross-origin";
+    player.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+    player.src = `${instagramReel.replace(/\/$/, "")}/embed`;
+  } else if (!videoId || videoId.startsWith("SUBSTITUA_")) {
+    videoFrame.classList.remove("instagram-frame");
     modalMessage.hidden = false;
     videoFrame.hidden = true;
     player.src = "";
   } else {
+    videoFrame.classList.remove("instagram-frame");
+    player.title = card.dataset.title || "Filme de Sidney Felinto";
     modalMessage.hidden = true;
     videoFrame.hidden = false;
     const playerOrigin = window.location.origin;
@@ -74,7 +86,9 @@ function closeVideo() {
   if (lastFocusedElement) lastFocusedElement.focus();
 }
 if (modal && modalClose && modalMessage && videoFrame && player) {
-  document.querySelectorAll(".film-card").forEach(card => card.addEventListener("click", () => openVideo(card)));
+  document.querySelectorAll(".film-card").forEach(card => card.addEventListener("click", () => {
+    openVideo(card);
+  }));
   modalClose.addEventListener("click", closeVideo);
   modal.addEventListener("click", event => { if (event.target === modal) closeVideo(); });
   document.addEventListener("keydown", event => { if (event.key === "Escape" && modal.classList.contains("is-open")) closeVideo(); });

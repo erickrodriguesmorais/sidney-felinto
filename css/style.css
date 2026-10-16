@@ -285,7 +285,7 @@ body.modal-open { overflow: hidden; }
   .modal-content { width: 100%; }
 }
 
-/* Capas dos filmes em proporção widescreen 16:9 */
+/* Mantém todas as capas do portfólio em widescreen 16:9 */
 .film-image {
   display: block;
   width: 100%;
@@ -303,3 +303,114 @@ body.modal-open { overflow: hidden; }
 }
 .video-frame { width: 100%; aspect-ratio: 16 / 9; height: auto; overflow: hidden; }
 .video-frame iframe { width: 100%; height: 100%; display: block; border: 0; }
+
+
+/* Centraliza o botão de play exatamente no centro da capa 16:9 */
+.film-play {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+.film-card:hover .film-play {
+  transform: translate(-50%, -50%) !important;
+}
+
+/* Correção definitiva: o botão de play fica dentro da própria capa,
+   portanto o centro é calculado sobre a imagem 16:9, não sobre o card inteiro. */
+.film-image > .film-play {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 !important;
+}
+.film-image > .film-play .play-icon {
+  position: static !important;
+}
+.film-card:hover .film-image > .film-play {
+  transform: translate(-50%, -50%) !important;
+}
+
+/* V21 — zoom orgânico e contínuo na capa do portfólio */
+.film-image {
+  /* Um tamanho inicial numérico permite interpolação real; cover -> 104% não anima suavemente. */
+  background-size: 100% 100%;
+  transition: background-size 1.8s cubic-bezier(.2,.65,.3,1), filter 1.8s ease;
+  isolation: isolate;
+  will-change: background-size;
+}
+.film-image::before {
+  content: "";
+  position: absolute;
+  inset: -35% -60%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(108deg, transparent 38%, rgba(255,255,255,.12) 49%, rgba(255,255,255,.04) 53%, transparent 64%);
+  transform: translateX(-65%) skewX(-10deg);
+  opacity: 0;
+  transition: transform 1.8s cubic-bezier(.2,.65,.3,1), opacity .7s ease;
+}
+.film-card:hover .film-image::before,
+.film-card:focus-visible .film-image::before {
+  transform: translateX(65%) skewX(-10deg);
+  opacity: 1;
+}
+.film-card:hover .film-image,
+.film-card:focus-visible .film-image {
+  background-size: 106% 106%;
+}
+.film-card .film-play {
+  transition: transform .8s cubic-bezier(.22,1,.36,1), background .8s ease;
+}
+.film-card:hover .film-play,
+.film-card:focus-visible .film-play {
+  transform: translate(-50%, -50%) scale(1.025);
+}
+@media (prefers-reduced-motion: reduce) {
+  .film-image, .film-image::before, .film-card .film-play {
+    transition: none !important;
+  }
+  .film-card:hover .film-image,
+  .film-card:focus-visible .film-image {
+    background-size: 100% 100%;
+  }
+  .film-image::before { display: none; }
+}
+
+
+/* Somente o cartão do Reels usa a proporção vertical original do Instagram (9:16). */
+.instagram-reel-card .instagram-reel-cover {
+  aspect-ratio: 9 / 16 !important;
+  width: 100%;
+  min-height: 0;
+  background: radial-gradient(circle at 20% 20%, #665044 0, transparent 42%), linear-gradient(135deg, #211d1a 0%, #4b3a32 48%, #9c8159 100%);
+  display: grid;
+  place-items: center;
+  transition: filter .5s ease;
+}
+.instagram-reel-card:hover .instagram-reel-cover { filter: brightness(1.08); }
+.instagram-reel-mark { position: absolute; width: 58px; height: 58px; opacity: .78; }
+.instagram-reel-mark svg { width: 100%; height: 100%; fill: none; stroke: rgba(255,255,255,.9); stroke-width: 1.4; }
+.instagram-reel-card .film-play { top: 50% !important; }
+.instagram-reel-card .film-caption { padding-top: 19px; }
+@media (max-width: 760px) {
+  .instagram-reel-card .instagram-reel-cover { aspect-ratio: 9 / 16 !important; }
+}
+
+/* Instagram Reel modal: keep the vertical Reel inside the portfolio site. */
+.video-frame.instagram-frame {
+  width: min(420px, 90vw);
+  aspect-ratio: 9 / 16;
+  height: min(78vh, 746px);
+  margin: 0 auto;
+  background: #000;
+  overflow: hidden;
+}
+.video-frame.instagram-frame iframe {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 9 / 16;
+  border: 0;
+}
