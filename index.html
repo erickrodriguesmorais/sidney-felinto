@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="origin">
   <meta name="theme-color" content="#f7f5f0">
   <meta name="description" content="Sidney Felinto Filmmaker — filmes de casamento e produção audiovisual com olhar cinematográfico.">
   <title>Sidney Felinto Filmmaker</title>
@@ -75,6 +76,11 @@
       </div>
 
       <div class="film-grid">
+        <button class="film-card film-card-large" data-video="uWzU8NwRR3k" data-title="Sidney Felinto — Apresentação" aria-label="Assistir ao vídeo de Sidney Felinto">
+          <span class="film-image sidney-film-image"></span>
+          <span class="film-play" aria-hidden="true"><span class="play-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.5 18 12l-9 5.5z"/></svg></span></span>
+          <span class="film-caption"><span class="film-location">SIDNEY FELINTO · FILMMAKER</span><span class="film-title">Conheça Sidney</span></span>
+        </button>
         <button class="film-card film-card-large" data-video="SUBSTITUA_ID_BIANCA" data-title="Bianca & Felipe" aria-label="Assistir ao filme Bianca e Felipe">
           <span class="film-image image-one"></span>
           <span class="film-play" aria-hidden="true"><span class="play-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.5 18 12l-9 5.5z"/></svg></span></span>
@@ -153,7 +159,7 @@
         <p>Na versão final, esta janela abrirá o filme completo pelo player do YouTube.</p>
       </div>
       <div class="video-frame" id="video-frame" hidden>
-        <iframe id="youtube-player" title="Filme de Sidney Felinto" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <iframe id="youtube-player" title="Filme de Sidney Felinto" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="origin"></iframe>
       </div>
     </div>
   </div>

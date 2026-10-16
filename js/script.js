@@ -4,7 +4,8 @@ const SITE_CONFIG = {
   instagramUrl: ""    // Ex.: "https://www.instagram.com/usuario/"
 };
 
-const yearElement = document.getElementById("year");\nif (yearElement) yearElement.textContent = new Date().getFullYear();
+const yearElement = document.getElementById("year");
+if (yearElement) yearElement.textContent = new Date().getFullYear();
 
 const menuToggle = document.querySelector(".menu-toggle");
 const nav = document.querySelector(".main-nav");
@@ -23,7 +24,7 @@ const whatsappLink = document.getElementById("whatsapp-link");
 if (whatsappLink && SITE_CONFIG.whatsappNumber) {
   const message = encodeURIComponent("Olá, Sidney! Gostaria de conversar sobre um filme de casamento ou projeto audiovisual.");
   whatsappLink.href = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${message}`;
-} else {
+} else if (whatsappLink) {
   whatsappLink.href = "https://wa.me/";
   whatsappLink.addEventListener("click", event => {
     event.preventDefault();
@@ -31,8 +32,8 @@ if (whatsappLink && SITE_CONFIG.whatsappNumber) {
   });
 }
 const instagramLink = document.getElementById("instagram-link");
-if (SITE_CONFIG.instagramUrl) instagramLink.href = SITE_CONFIG.instagramUrl;
-else instagramLink.addEventListener("click", event => {
+if (instagramLink && SITE_CONFIG.instagramUrl) instagramLink.href = SITE_CONFIG.instagramUrl;
+else if (instagramLink) instagramLink.addEventListener("click", event => {
   event.preventDefault();
   alert("Adicione o perfil oficial do Instagram no arquivo js/script.js.");
 });
@@ -58,7 +59,9 @@ function openVideo(card) {
   } else {
     modalMessage.hidden = true;
     videoFrame.hidden = false;
-    player.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0`;
+    const playerOrigin = window.location.origin;
+    player.referrerPolicy = "origin";
+    player.src = `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0&playsinline=1&origin=${encodeURIComponent(playerOrigin)}`;
   }
   modalClose.focus();
 }
@@ -70,7 +73,9 @@ function closeVideo() {
   window.setTimeout(() => { modalMessage.hidden = true; videoFrame.hidden = true; }, 250);
   if (lastFocusedElement) lastFocusedElement.focus();
 }
-document.querySelectorAll(".film-card").forEach(card => card.addEventListener("click", () => openVideo(card)));
-modalClose.addEventListener("click", closeVideo);
-modal.addEventListener("click", event => { if (event.target === modal) closeVideo(); });
-document.addEventListener("keydown", event => { if (event.key === "Escape" && modal.classList.contains("is-open")) closeVideo(); });
+if (modal && modalClose && modalMessage && videoFrame && player) {
+  document.querySelectorAll(".film-card").forEach(card => card.addEventListener("click", () => openVideo(card)));
+  modalClose.addEventListener("click", closeVideo);
+  modal.addEventListener("click", event => { if (event.target === modal) closeVideo(); });
+  document.addEventListener("keydown", event => { if (event.key === "Escape" && modal.classList.contains("is-open")) closeVideo(); });
+}
