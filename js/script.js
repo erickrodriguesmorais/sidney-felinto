@@ -1,0 +1,76 @@
+// CONFIGURAÇÃO: substitua pelos dados oficiais de Sidney.
+const SITE_CONFIG = {
+  whatsappNumber: "558388719979", // Número informado para Sidney
+  instagramUrl: ""    // Ex.: "https://www.instagram.com/usuario/"
+};
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+const menuToggle = document.querySelector(".menu-toggle");
+const nav = document.querySelector(".main-nav");
+menuToggle.addEventListener("click", () => {
+  const open = nav.classList.toggle("is-open");
+  menuToggle.setAttribute("aria-expanded", String(open));
+  menuToggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+});
+nav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+  nav.classList.remove("is-open");
+  menuToggle.setAttribute("aria-expanded", "false");
+  menuToggle.setAttribute("aria-label", "Abrir menu");
+}));
+
+const whatsappLink = document.getElementById("whatsapp-link");
+if (SITE_CONFIG.whatsappNumber) {
+  const message = encodeURIComponent("Olá, Sidney! Gostaria de conversar sobre um filme de casamento ou projeto audiovisual.");
+  whatsappLink.href = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${message}`;
+} else {
+  whatsappLink.href = "https://wa.me/";
+  whatsappLink.addEventListener("click", event => {
+    event.preventDefault();
+    alert("Para ativar o WhatsApp, informe o número oficial de Sidney no arquivo js/script.js.");
+  });
+}
+const instagramLink = document.getElementById("instagram-link");
+if (SITE_CONFIG.instagramUrl) instagramLink.href = SITE_CONFIG.instagramUrl;
+else instagramLink.addEventListener("click", event => {
+  event.preventDefault();
+  alert("Adicione o perfil oficial do Instagram no arquivo js/script.js.");
+});
+
+const modal = document.getElementById("video-modal");
+const modalClose = document.getElementById("modal-close");
+const modalMessage = document.getElementById("modal-message");
+const videoFrame = document.getElementById("video-frame");
+const player = document.getElementById("youtube-player");
+let lastFocusedElement = null;
+
+function openVideo(card) {
+  lastFocusedElement = card;
+  const videoId = card.dataset.video;
+  modal.setAttribute("aria-label", card.dataset.title || "Filme");
+  modal.classList.add("is-open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+  if (!videoId || videoId.startsWith("SUBSTITUA_")) {
+    modalMessage.hidden = false;
+    videoFrame.hidden = true;
+    player.src = "";
+  } else {
+    modalMessage.hidden = true;
+    videoFrame.hidden = false;
+    player.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0`;
+  }
+  modalClose.focus();
+}
+function closeVideo() {
+  modal.classList.remove("is-open");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+  player.src = "";
+  window.setTimeout(() => { modalMessage.hidden = true; videoFrame.hidden = true; }, 250);
+  if (lastFocusedElement) lastFocusedElement.focus();
+}
+document.querySelectorAll(".film-card").forEach(card => card.addEventListener("click", () => openVideo(card)));
+modalClose.addEventListener("click", closeVideo);
+modal.addEventListener("click", event => { if (event.target === modal) closeVideo(); });
+document.addEventListener("keydown", event => { if (event.key === "Escape" && modal.classList.contains("is-open")) closeVideo(); });
