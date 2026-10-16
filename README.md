@@ -9,3 +9,6 @@ Observação: a capa real do Instagram não é disponibilizada automaticamente p
 
 
 Versão 25: corrigida a proporção das capas. Todas as capas de filmes voltam para 16:9; somente o cartão do Reels de Gabriella e Felippe usa 9:16. O player do Reels continua vertical.
+
+
+Versão 26: o ícone ao lado de ‘VAMOS CONVERSAR’ foi substituído por uma seta SVG minimalista para evitar que iOS/Safari mostre um emoji azul. Nenhuma outra área foi alterada.
